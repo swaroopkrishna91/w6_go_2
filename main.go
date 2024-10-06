@@ -106,7 +106,7 @@ func deleteCar(w http.ResponseWriter, r *http.Request) {
 // 	fmt.Fprintf(w, `{"message": "Congratulations! Here's your secret!", "url": "%s"}`, easterEggURL)
 // }
 
-//Secret
+//New Section
 var easterEgg = "🎉 You found the Easter Egg! 🐣"
 
 func secret(w http.ResponseWriter, r *http.Request) {
