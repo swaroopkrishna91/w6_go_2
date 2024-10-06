@@ -16,7 +16,6 @@ type Car struct {
 }
 
 var cars []Car
-var currentID = 1
 
 // Getting the Car Details
 func getAllCars(w http.ResponseWriter, r *http.Request) {
@@ -76,6 +75,11 @@ func updateCar(w http.ResponseWriter, r *http.Request) {
 
 // Deleteing the Car Details
 func deleteCar(w http.ResponseWriter, r *http.Request) {
+	
+	if r.Method != http.MethodGet {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(r.URL.Path[len("/cars/"):])
@@ -94,6 +98,23 @@ func deleteCar(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Car not found", http.StatusNotFound)
 }
 
+//Uncomment this if you want to see the orginial secret and line uncomment line no. 135
+// var easterEggURL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+
+// func easterEggsecret(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
+// 	fmt.Fprintf(w, `{"message": "Congratulations! Here's your secret!", "url": "%s"}`, easterEggURL)
+// }
+
+//Secret
+var easterEgg = "🎉 You found the Easter Egg! 🐣"
+
+func secret(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Fprintf(w, `{"message": "Congratulations! Here's your secret!", "url": "%s"}`, easterEgg)
+}
+
+
 func main() {
 	http.HandleFunc("/cars/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -110,6 +131,8 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/cars/secret", secret)
+	// http.HandleFunc("/cars/orginialsecret", easterEggsecret)
 	fmt.Println("Server listening on port 8497")
 	http.ListenAndServe(":8497", nil)
 }
