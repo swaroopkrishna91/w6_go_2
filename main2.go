@@ -20,8 +20,11 @@ var currentID = 1
 
 // Getting the Car Details
 func getCars(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(cars)
+	if r.Method != http.MethodGet {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+	fmt.Fprintf(w,"Car Databases")
 }
 
 // Getting the Car Details
